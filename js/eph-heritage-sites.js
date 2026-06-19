@@ -958,33 +958,6 @@ out skel qt;`
 }
 
 // ============================================================
-// FITUR PENGUBAH TEKS MENU OTOMATIS ("Daftar" <-> "Kembali")
-// ============================================================
-function updateNavText() {
-  let navIndexLink = document.getElementById('nav-index-link');
-  if (!navIndexLink) return;
-
-  // Ambil teks di ujung URL (misal: "index", "about", atau "Q12345")
-  let currentHash = window.location.hash.replace('#', '');
-
-  // Jika URL kosong, atau sedang di menu utama, kembalikan ke teks "Daftar"
-  if (currentHash === '' || currentHash === 'index' || currentHash === 'about' || currentHash === 'kontrib') {
-    navIndexLink.textContent = 'Daftar';
-  } 
-  // Jika URL berisi ID butir (Masjid/Situs), ubah teks menjadi "Kembali"
-  else {
-    navIndexLink.textContent = 'Kembali';
-  }
-}
-
-// 1. Jalankan fungsi ini setiap kali pengguna mengklik menu atau butir (URL hash berubah)
-window.addEventListener('hashchange', updateNavText);
-
-// 2. Jalankan fungsi ini satu kali saat halaman baru pertama kali dimuat 
-// (Bermanfaat jika pengguna memuat ulang/refresh halaman langsung saat berada di dalam profil masjid)
-window.addEventListener('DOMContentLoaded', updateNavText);
-
-// ============================================================
 // CLASSES
 // ============================================================
 class Designation {
