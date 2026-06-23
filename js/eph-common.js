@@ -159,6 +159,11 @@ function enableApp() {
 function processHashChange() {
   let fragment = window.location.hash.replace('#', '');
 
+  // === KUNCI PENYELAMAT: Tarik panel ke atas secara otomatis di Mobile ===
+  if (typeof window.setMobilePanelExpanded === 'function') {
+    window.setMobilePanelExpanded(true);
+  }
+
   if (fragment === 'landing') {
     document.title = 'Mulai Eksplorasi – ' + BASE_TITLE;
     displayPanelContent('landing');
