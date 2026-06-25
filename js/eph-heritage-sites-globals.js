@@ -5,7 +5,8 @@ const BASE_TITLE = 'WikiSurau';
 const SPARQL_QUERY_0 =
 `SELECT DISTINCT ?siteQid ?siteLabel ?provinsiQid ?provinsiLabel ?p131LokasiLabel ?tahunBerdiriMentah ?tahunPresisi
 WHERE {
-  { SELECT ?provinsi WHERE { ?provinsi wdt:P31 wd:Q5098 . } }
+  # === LUBANG DINAMIS UNTUK WILAYAH ===
+  <PLACEHOLDER_WILAYAH>
   
   VALUES ?jenis { <PLACEHOLDER_JENIS> }
   
@@ -127,7 +128,8 @@ const ABOUT_SPARQL_QUERY = ``;
 const SPARQL_QUERY_0_PERS =
 `SELECT DISTINCT ?siteQid ?siteLabel ?provinsiQid ?provinsiLabel ?p131LokasiLabel ?tahunBerdiriMentah ?tahunPresisi
 WHERE {
-  { SELECT ?provinsi WHERE { ?provinsi wdt:P31 wd:Q5098 . } }
+  # === LUBANG DINAMIS UNTUK WILAYAH ===
+  <PLACEHOLDER_WILAYAH>
   
   VALUES ?jenis { <PLACEHOLDER_JENIS> }
   
