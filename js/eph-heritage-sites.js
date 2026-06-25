@@ -55,25 +55,25 @@ function loadPrimaryData() {
       enableApp(); 
       populateImageAndWikipediaData()
         .then(() => {
-          applyIntersectionFilter(true);
+          // === PERBAIKAN 1: HAPUS 'true' DI SINI ===
+          applyIntersectionFilter(); // Peta akan otomatis menyesuaikan posisi (zoom)
           Object.values(Records).forEach(r => r.panelElem = undefined);          
           processHashChange();
         })
         .catch(error => {
-          // Cegat error agar tidak teriak jika ini adalah pembunuhan yang disengaja
           if (error === 'ABORTED') return;
           
           console.warn("Gagal mengambil data Gambar/Wikipedia dari server.", error);
-          applyIntersectionFilter(true);                
+          // === PERBAIKAN 2: HAPUS 'true' DI SINI JUGA ===
+          applyIntersectionFilter(); // Tetap lakukan zoom meskipun gambar gagal dimuat                
           Object.values(Records).forEach(r => r.panelElem = undefined);
           processHashChange();
         });
     })
     .catch(error => {
-       // Cegat error utama agar tidak memicu False Alarm!
        if (error === 'ABORTED') {
          console.log("Pencarian dibatalkan secara paksa. Kembali ke Beranda.");
-         return; // Hentikan eksekusi, biarkan pengguna damai di Landing Page
+         return;
        }
 
        console.error("Data utama gagal dimuat. Cek koneksi atau server Wikidata.", error);
