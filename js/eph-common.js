@@ -37,10 +37,13 @@ function init() {
   window.addEventListener('hashchange', processHashChange);
   Map.on('popupopen', function(e) { displayRecordDetails(e.popup._qid) });
   
-  window.location.hash = ''; 
-  setTimeout(function() {
+  // Langsung eksekusi ke landing tanpa delay 50ms
+  if (window.location.hash === '' || window.location.hash === '#') {
     window.location.hash = 'landing';
-  }, 50);
+  } else {
+    // Jalankan jika pengunjung masuk lewat link spesifik (contoh: domain.com/#Q123)
+    processHashChange();
+  }
 }
 
 function setupLandingForm() {
@@ -240,7 +243,9 @@ function processHashChange() {
   let fragment = window.location.hash.replace('#', '');
 
   if (typeof window.setMobilePanelExpanded === 'function') {
-    window.setMobilePanelExpanded(true);
+    // Pakai animasi (true) KECUALI saat muatan awal aplikasi (false)
+    window.setMobilePanelExpanded(true, !isAppInitialLoad);
+    isAppInitialLoad = false; // Matikan penanda setelah lewat satu kali
   }
 
   if (fragment === 'landing') {
