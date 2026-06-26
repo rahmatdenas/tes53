@@ -697,15 +697,11 @@ optgroup option { padding-left: 10px; }
 .leaflet-touch .powered { box-shadow: none; border: 2px solid rgba(0,0,0,0.2); }
 
 .leaflet-bottom.leaflet-right {
-  margin-bottom: 100px !important;
-  margin-right: 0px !important;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
 }
 
 /* Pastikan atribusi di kiri atas diberi jarak agar tidak menempel dengan tombol layer */
 .leaflet-top .leaflet-control-attribution {
-  margin-bottom: 8px !important; 
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  padding: 2px 6px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.65); /* Disamakan dengan bayangan tombol Anda */
 }
