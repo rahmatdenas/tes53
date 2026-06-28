@@ -480,18 +480,18 @@ function populateStatusAndCapacityData(qid) {
   let record = Records[qid];
   let queryStr = getSparqlQuery6(qid); 
 
-  record.kondisi = null;
-  record.kapasitas = null;
+  // Buat objek kosong untuk menampung semua atribut spesifik
+  record.dynamicProps = {};
 
   return queryWdqsThenProcess(
     queryStr,
     function(result) {
-      if ('kondisiLabel' in result && result.kondisiLabel.value) {
-        record.kondisi = result.kondisiLabel.value;
-      }
-      if ('kapasitas' in result && result.kapasitas.value) {
-        record.kapasitas = result.kapasitas.value;
-      }
+      // Looping otomatis: simpan apapun yang berhasil didapat dari Wikidata!
+      Object.keys(result).forEach(key => {
+        if (key !== 'siteQid' && result[key].value) {
+          record.dynamicProps[key] = result[key].value;
+        }
+      });
     },
     function() {
       renderDynamicDataInPanel(qid); 
@@ -532,14 +532,58 @@ function renderDynamicDataInPanel(qid) {
     });
   }
 
-  if (record.kondisi) {
-    let kondisiKecil = record.kondisi.toLowerCase();
-    html += `<p>Kondisi: ${kondisiKecil}</p>`;
-  }
+ // ==========================================
+  // RENDER ATRIBUT DINAMIS (KAPASITAS, POPULASI, DLL)
+  // ==========================================
+  
+  // Kamus untuk mengubah kode variabel menjadi Teks Bahasa Indonesia yang rapi di layar
+  const labelKamus = {
+    ketinggian: 'Ketinggian (mdpl)', luas: 'Luas wilayah (km²)', kapasitas: 'Kapasitas',
+    kondisi: 'Kondisi', lamanResmi: 'Laman resmi', fasilitasList: 'Fasilitas',
+    arsitek: 'Arsitek', gayaList: 'Gaya arsitektur', populasi: 'Jumlah penduduk',
+    kepalaDaerah: 'Kepala daerah', jalurList: 'Jalur penghubung', jumlahKoleksi: 'Jumlah koleksi',
+    spesialisasiList: 'Spesialisasi', tglTemu: 'Tanggal penemuan', tempatTemu: 'Lokasi penemuan',
+    bahasaList: 'Bahasa', bentukList: 'Bentuk karya', penulisList: 'Penulis/Pembuat',
+    subjekList: 'Subjek utama', kolektorList: 'Koleksi dari', pemredList: 'Pimpinan redaksi',
+    pendiriList: 'Pendiri', penerbit: 'Penerbit', bahanList: 'Bahan/Komposisi',
+    caraList: 'Cara pembuatan', penutur: 'Jumlah penutur', tglWafat: 'Tanggal wafat',
+    pekerjaanList: 'Pekerjaan', pegunungan: 'Bagian dari pegunungan', korban: 'Korban jiwa'
+  };
 
-  if (record.kapasitas) {
-    let formatAngka = parseInt(record.kapasitas).toLocaleString('id-ID');
-    html += `<p>Kapasitas: ${formatAngka} orang</p>`;
+  if (record.dynamicProps && Object.keys(record.dynamicProps).length > 0) {
+    for (let key in record.dynamicProps) {
+      let rawValue = record.dynamicProps[key];
+      let formattedValue = rawValue;
+      let titleLabel = labelKamus[key] || key; // Gunakan kamus, jika tidak ada pakai nama asli
+
+      // FORMATTING KHUSUS: Angka & Keterangan Waktu ("5000000|2024")
+      if (key === 'populasi' || key === 'penutur') {
+        let [angka, tahun] = rawValue.split('|');
+        let angkaRapi = parseInt(angka).toLocaleString('id-ID');
+        formattedValue = tahun !== 'null' ? `${angkaRapi} jiwa (${tahun})` : `${angkaRapi} jiwa`;
+      } 
+      else if (key === 'kepalaDaerah') {
+        let [nama, tahun] = rawValue.split('|');
+        formattedValue = tahun !== 'null' ? `${nama} (sejak ${tahun})` : nama;
+      }
+      else if (key === 'kapasitas' || key === 'jumlahKoleksi' || key === 'korban') {
+        formattedValue = parseInt(rawValue).toLocaleString('id-ID');
+      }
+      else if (key === 'lamanResmi') {
+        formattedValue = `<a href="${rawValue}" target="_blank" rel="noopener noreferrer" style="word-break: break-all;">Kunjungi Situs Web</a>`;
+      }
+      else if (key === 'tglTemu' || key === 'tglWafat') {
+        // Ambil 4 karakter pertama (Tahun) dari string waktu ISO Wikidata
+        formattedValue = rawValue.substring(0, 4);
+      }
+      
+      // Jika hasil akhirnya huruf kecil semua, kita beri kapital di awal
+      if (typeof formattedValue === 'string' && !formattedValue.includes('<a ')) {
+        formattedValue = formattedValue.charAt(0).toUpperCase() + formattedValue.slice(1);
+      }
+
+      html += `<p><strong>${titleLabel}:</strong> ${formattedValue}</p>`;
+    }
   }
 
   let tautanTambah = `<p><a href="${wikiBaseUrl}" target="_blank" class="sunting-linktambah" title="Tambahkan data di Wikidata" style="font-style: italic;">Lengkapi data di Wikidata!</a></p>`;
