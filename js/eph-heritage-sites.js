@@ -149,10 +149,9 @@ function dapatkanNamaKlaster(inputTxt) {
   if (cek(['Q87167'])) return 'Naskah';
   if (cek(['Q11032', 'Q41298'])) return 'Media massa';
   if (cek(['Q7944', 'Q8070'])) return 'Gempa bumi dan tsunami';
-  if (cek(['Q8065', 'Q3839081'])) return 'Bencana lainnya';
-  if (cek(['Q8065', 'Q3839081'])) return 'Bencana lainnya';
+  if (cek(['Q8065', 'Q3839081', 'Q7692360', 'Q8068'])) return 'Bencana lainnya';
   if (cek(['Q1190554'])) return 'Peristiwa lainnya';
-  if (cek([''Q1323212', 'Q3199915', 'Q198', 'Q645883', 'Q831663', 'Q180684', 'Q178561', 'Q1261499'])) return 'Perang & konflik';
+  if (cek(['Q1323212', 'Q3199915', 'Q198', 'Q645883', 'Q831663', 'Q180684', 'Q178561', 'Q1261499'])) return 'Perang & konflik';
 
   // Kategori Alam / Kebudayaan Non-Bangunan
   if (cek(['Q34770'])) return 'Bahasa';
@@ -345,10 +344,10 @@ function populateCoordinatesData() {
   // 1. Ambil P-ID menggunakan fungsi yang sudah kita buat sebelumnya
   let propLokasi = dapatkanPropertiWikidata(namaKlaster); 
   
-  // 2. Daftarkan klaster apa saja yang TIDAK PUNYA koordinat langsung
+  // 2. Daftarkan klaster apa saja yang TIDAK PUNYA koordinat langsung (Cek lagi Lukisan Lontar dan Naskah?)
   const klasterTanpaKoordinatLangsung = [
     'Hidangan', 'Pakaian', 'Tari dan pertunjukan', 'Ritual dan upacara', 
-    'Budaya rakyat', 'Lukisan', 'Lontar', 'Naskah', 'Artefak',
+    'Budaya rakyat', 'Lukisan', 'Lontar', 'Naskah', 'Perang & konflik',
     'Tokoh', 'Bahasa', 'Publikasi', 'Media massa', 'Latar karya sastra'
   ];
 
