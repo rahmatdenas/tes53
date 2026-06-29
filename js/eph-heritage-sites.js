@@ -191,7 +191,7 @@ if (cek(['Q40080'])) return 'Pantai';
   if (cek(['Q57821', 'Q1785071', 'Q91122'])) return 'Benteng dan bunker';
   if (cek(['Q330284', 'Q11315'])) return 'Pasar dan mall';
   if (cek(['Q27686', 'Q875157'])) return 'Hotel dan resor';
-  if (cek(['Q4989906', 'Q321053', 'Q11734477', 'Q179700', 'Q170980', 'Q5003624'])) return 'Monumen, patung, & memorial';
+  if (cek(['Q4989906', 'Q321053', 'Q179700', 'Q170980', 'Q5003624'])) return 'Monumen, patung, & memorial';
   if (cek(['Q178743', 'Q1640824'])) return 'Prasasti';
   if (cek(['Q839954', 'Q193475'])) return 'Situs arkeologi';
   if (cek(['Q220659', 'Q860861'])) return 'Artefak';
