@@ -653,8 +653,8 @@ if (urlWikibooks) {
     if (arsipContainer) {
       let wikibooksHtml = `
         <div style="margin-top:0px;">
-          <h2 style="margin-bottom:0px;">Resep & Panduan</h2>
-          <p class="wikipedia-link" style="padding-top: 5px;">
+          <h2>Resep & Panduan</h2>
+          <p class="wikipedia-link">
             <a href="${urlWikibooks}" target="_blank">
               <img src="img/wikibook_tiny_logo.png" alt="" />
               <span>Lihat di Wikibuku</span>
@@ -1232,7 +1232,7 @@ function renderHistoricalImagesInPanel(qid) {
   }
 
   if (record.commonsCat) {
-    html += '<h2 style="margin-bottom:0px;">Galeri lainnya</h2>';
+    html += '<h2>Galeri lainnya</h2>';
     html += 
       '<p class="wikipedia-link" style="margin-bottom: 0;">' +
         `<a href="https://commons.wikimedia.org/wiki/Category:${encodeURIComponent(record.commonsCat)}" target="_blank">` +
@@ -1248,7 +1248,7 @@ function renderHistoricalImagesInPanel(qid) {
     
     let judulGaleriUtama = '';
     if (record.pastImage || record.interiorImage || (record.vicinityImages && record.vicinityImages.length > 0)) {
-      judulGaleriUtama = `<h2 style="margin-bottom:0px;">Galeri ${tautanSuntingGaleri}</h2>`;
+      judulGaleriUtama = `<h2 style="margin-bottom:10px;">Galeri ${tautanSuntingGaleri}</h2>`;
     }
     
     container.innerHTML = judulGaleriUtama + html;
